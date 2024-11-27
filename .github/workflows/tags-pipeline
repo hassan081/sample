@@ -1,0 +1,20 @@
+name: Print Published Version
+
+on:
+  release:
+    types:
+       - published
+
+jobs:
+  print-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Get the version
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Print the version
+        run: echo "The version ${{ steps.get_version.outputs.VERSION }} has been published!"
