@@ -1,0 +1,27 @@
+name: Print Published Version in test
+
+on:
+  release:
+    types:
+      - published
+    tags:
+       - v-*
+
+jobs:
+  print-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Get the version
+        id: get_version
+        run: |
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+              echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          else
+              echo "VERSION=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Print the version
+        run: echo "The version ${{ steps.get_version.outputs.VERSION }} has been published!"
