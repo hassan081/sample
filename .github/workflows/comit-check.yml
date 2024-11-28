@@ -1,6 +1,9 @@
 name: Print Published Version
 
 on:
+  release:
+    types:
+      - published
   push:
     branches:
       - main
